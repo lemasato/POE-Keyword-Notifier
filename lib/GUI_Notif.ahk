@@ -2,7 +2,7 @@
 {
 	Create() {
 		static
-		global ProgramValues
+		global ProgramValues, hGUI_Notif
 		global GUI_Notif_Handles := {}, Tabs_Infos := {}
 		global TABS_COUNT := 0
 
@@ -17,7 +17,7 @@
 		cTransparency := Get_Local_Config("SETTINGS", "Transparency")
 
 		Gui, Notif:Destroy
-		Gui, Notif:New, -SysMenu +AlwaysOnTop +ToolWindow
+		Gui, Notif:New, -SysMenu +AlwaysOnTop +ToolWindow +HwndhGUI_Notif
 		Gui, Notif:Font,S8,Segoe UI
 
 		Gui, Notif:Add, Tab2, x0 y0 w302 h132 vTabCtrl hwndhTabCtrl gGUI_Notif.OnTabSwitch +Theme

@@ -1,7 +1,7 @@
 ﻿Class GUI_Settings {
 	Create() {
 		static
-		global ProgramValues, sKEYWORDS
+		global ProgramValues, sKEYWORDS, hGUI_Settings
 		global GUI_Settings_Handles := {}
 		global GUI_Settings_Submit := {}
 
@@ -10,7 +10,7 @@
 		Declare_Keywords_List()
 
 		Gui, Settings:Destroy
-		Gui, Settings:New, +AlwaysOnTop +ToolWindow +LabelGUI_Settings_
+		Gui, Settings:New, +AlwaysOnTop +ToolWindow +LabelGUI_Settings_ +HwndhGUI_Settings
 		Gui, Settings:Font,S8,Segoe UI
 
 		Gui, Settings:Add, Text, x10 y10,Transparency: 
