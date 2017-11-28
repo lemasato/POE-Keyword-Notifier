@@ -66,7 +66,7 @@ Start_Script() {
 	global ProgramValues := {}
 
 	ProgramValues.Name 					:= "POE Keyword Notifier"
-	ProgramValues.Version 				:= "0.1.2"
+	ProgramValues.Version 				:= "0.2"
 	ProgramValues.Branch 				:= "master"
 	ProgramValues.Github_User 			:= "lemasato"
 	ProgramValues.GitHub_Repo 			:= "POE-Keyword-Notifier"
@@ -103,7 +103,7 @@ Start_Script() {
 ;	Startup
 	Tray_Refresh()
 	Create_Local_File()
-	UpdateCheck(1, 1)
+	UpdateCheck(0, 1)
 	Declare_Keywords_List()
 
 	GUI_Notif.Create()
