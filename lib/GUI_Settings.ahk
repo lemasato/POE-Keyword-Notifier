@@ -52,7 +52,8 @@
 		Gui, Settings:Add, Text, x+5 yp+3,Message:
 		Gui, Settings:Add, Edit, x+5 yp-3 w220 vEDIT_BTN3_Message hwndhEDIT_BTN3_Message,% config_Buttons.Button_3_Message
 
-		Gui, Settings:Add, GroupBox, x10 y+15 w4
+		Gui, Settings:Add, Text, x10 y+20,% "v" ProgramValues.Version
+		Gui, Settings:Add, Link, x10 y+0 hwndhLINK_GitHub gGitHub_Link,% "<a href="""">GitHub</a>"
 
 		GUI_Settings_Handles.EDIT_Transparency := hEDIT_Transparency
 		GUI_Settings_Handles.UPDOWN_Transparency := hUPDOWN_Transparency

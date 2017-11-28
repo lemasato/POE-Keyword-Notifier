@@ -46,9 +46,9 @@ Return
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #IfWinActive, ahk_group ScriptPID
 
-Esc:: ; Close the script if its the active window
-	ExitApp
-Return
+; Esc:: ; Close the script if its the active window
+; 	ExitApp
+; Return
 
 Space:: ; Close the SplashTextOn() window
 	global SPACEBAR_WAIT
@@ -66,7 +66,7 @@ Start_Script() {
 	global ProgramValues := {}
 
 	ProgramValues.Name 					:= "POE Keyword Notifier"
-	ProgramValues.Version 				:= "0.1"
+	ProgramValues.Version 				:= "0.1.1"
 	ProgramValues.Branch 				:= "master"
 	ProgramValues.Github_User 			:= "lemasato"
 	ProgramValues.GitHub_Repo 			:= "POE-Keyword-Notifier"
@@ -103,11 +103,11 @@ Start_Script() {
 ;	Startup
 	Tray_Refresh()
 	Create_Local_File()
-	UpdateCheck(0, 1)
+	UpdateCheck(1, 1)
 	Declare_Keywords_List()
 
 	GUI_Notif.Create()
-	
+
 	; GUI_Notif.Add("iSellStuff","rota,zana","LF2M Zana 6 Rota")
 	; GUI_Settings.Create()
 
@@ -160,6 +160,10 @@ Get_Control_Coords(guiName, ctrlHandler) {
 
 ; ================================================
 
+GitHub_Link:
+	Run,% ProgramValues.GitHub
+Return
+
 Reload_Func() {
 	Sleep 10
 	Reload
@@ -185,3 +189,6 @@ Exit_Func(ExitReason, ExitCode) {
 #Include TrayRefresh.ahk
 #Include UpdateCheck.ahk
 #Include WM_Messages.ahk
+
+#Include %A_ScriptDir%/lib/third-party
+#Include JSON.ahk

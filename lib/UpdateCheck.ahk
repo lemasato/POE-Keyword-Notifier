@@ -25,7 +25,7 @@
 		if (!onlineVer || !onlineDownload) {
 			SplashTextOn(ProgramValues.Name " - Updating Error", "There was an issue when retrieving the latest release from GitHub API"
 			.											"`nIf this keeps on happening, please try updating manually."
-			.											"`nYou can find the GitHub repository link in the ""Opts"" tab.", 1, 1)
+			.											"`nYou can find the GitHub repository link in the Settings menu.", 1, 1)
 		}
 		else if (onlineVer && onlineDownload) && (onlineVer != ProgramValues.Version) {
 			if (autoupdate)
