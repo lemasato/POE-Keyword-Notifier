@@ -1,7 +1,7 @@
 # POE-Keyword-Notifier
 
-Receive a notification based on keywords
-Quickly message the player using buttons
+Receive a notification based on keywords  
+Quickly message the player using buttons  
 
 <p align="left">
   <img src="https://raw.githubusercontent.com/lemasato/POE-Keyword-Notifier/master/resources/screenshots/interface.png">
