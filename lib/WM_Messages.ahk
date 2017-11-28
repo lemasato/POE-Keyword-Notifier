@@ -20,7 +20,7 @@
 		WinGetPos, thisWinX, thisWinY
 		MouseGetPos, MouseX
 		radiusW := (coords.X+coords.W)-MouseX
-		coordModeSettings := {ToolTip:"Client"}
-		ShowToolTip(content, coords.X, coords.Y, radiusW, 12, coordModeSettings)
+		coordModeSettings := {ToolTip:"Screen"}
+		ShowToolTip(content, coords.X+thisWinX, coords.Y+(coords.H*2)+thisWinY, radiusW, 12, coordModeSettings)
 	}
 }
