@@ -28,8 +28,10 @@
 			.											"`nYou can find the GitHub repository link in the Settings menu.", 1, 1)
 		}
 		else if (onlineVer && onlineDownload) && (onlineVer != ProgramValues.Version) {
-			if (autoupdate)
+			if (autoupdate) {
+				FileDownload(ProgramValues.Updater_Link, ProgramValues.Updater_File)
 				Run_Updater(onlineDownload)
+			}
 			Else
 				ShowUpdatePrompt(onlineVer, onlineDownload)
 			Return

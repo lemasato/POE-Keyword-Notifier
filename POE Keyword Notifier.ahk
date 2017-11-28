@@ -66,7 +66,7 @@ Start_Script() {
 	global ProgramValues := {}
 
 	ProgramValues.Name 					:= "POE Keyword Notifier"
-	ProgramValues.Version 				:= "0.1.1"
+	ProgramValues.Version 				:= "0.1.2"
 	ProgramValues.Branch 				:= "master"
 	ProgramValues.Github_User 			:= "lemasato"
 	ProgramValues.GitHub_Repo 			:= "POE-Keyword-Notifier"
