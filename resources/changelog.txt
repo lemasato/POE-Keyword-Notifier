@@ -1,3 +1,16 @@
+v0.2.1 (05 Dec 2017)
+
+	Changes:
+	- Messages are no longer being forced as whisper.
+	Previous messages will be automatically updated to use the @%player% prefix.
+	
+	Fixes:
+	- Space character would be blocked.
+	- Whitespaces at the end of the messages were being ignored.
+	- Special characters (such as ^$[! etc) could cause issues.
+	- Settings menu: The edit boxes could take multiple rows based on its content.
+
+-----------------------
 v0.2 (28 Nov 2017)
 
 	Public-test ready.

@@ -3,17 +3,11 @@
 	Create() {
 		static
 		global ProgramValues, hGUI_Notif
-		global GUI_Notif_Handles := {}, Tabs_Infos := {}
+		global GUI_Notif_Handles := {}, GUI_Notif_Values := {}
+		global Tabs_Infos := {}
 		global TABS_COUNT := 0
 
 		config_Buttons := Get_Local_Config("BUTTONS")
-		cBTN_1_Name := config_Buttons.Button_1_Name
-		cBTN_2_Name := config_Buttons.Button_2_Name
-		cBTN_3_Name := config_Buttons.Button_3_Name
-		cBTN_1_Msg := config_Buttons.Button_1_Message
-		cBTN_2_Msg := config_Buttons.Button_2_Message
-		cBTN_3_Msg := config_Buttons.Button_3_Message
-
 		cTransparency := Get_Local_Config("SETTINGS", "Transparency")
 
 		Gui, Notif:Destroy
@@ -28,9 +22,19 @@
 		Gui, Notif:Add, Text, xp+55 yp 0x0100 w230 hwndhTEXT_KeywordSlot BackgroundTrans,
 		Gui, Notif:Add, Text, x10 y+10 hwndhTEXT_Message BackgroundTrans,Message:
 		Gui, Notif:Add, Text, xp+55 yp 0x0100 w230 hwndhTEXT_MessageSlot BackgroundTrans,
-		Gui, Notif:Add, Button, x8 y+10 w95 h25 gSend_Msg1,% cBTN_1_Name
-		Gui, Notif:Add, Button, x+0 yp wp hp gSend_Msg2,% cBTN_2_Name
-		Gui, Notif:Add, Button, x+0 yp wp hp gSend_Msg3,% cBTN_3_Name
+
+		Gui, Notif:Add, Button, x8 y+10 w95 h25 hwndhBTN_Msg1,% config_Buttons.Button_1_Name
+		__f := GUI_Notif.SendMsg.bind(GUI_Notif, "1")
+		GuiControl, Notif:+g,% hBTN_Msg1,% __f
+
+		Gui, Notif:Add, Button, x+0 yp wp hp hwndhBTN_Msg2,% config_Buttons.Button_2_Name
+		__f := GUI_Notif.SendMsg.bind(GUI_Notif, "2")
+		GuiControl, Notif:+g,% hBTN_Msg2,% __f
+
+		Gui, Notif:Add, Button, x+0 yp wp hp hwndhBTN_Msg3,% config_Buttons.Button_3_Name
+		__f := GUI_Notif.SendMsg.bind(GUI_Notif, "3")
+		GuiControl, Notif:+g,% hBTN_Msg3,% __f
+
 		Gui, Notif:Add, Button, hwndhBTN_Close x280 y21 w20 h20 gGUI_Notif.CloseTab,X
 
 		GUI_Notif_Handles.TabCtrl := hTabCtrl
@@ -38,36 +42,32 @@
 		GUI_Notif_Handles.TEXT_KeywordSlot := hTEXT_KeywordSlot
 		GUI_Notif_Handles.TEXT_MessageSlot := hTEXT_MessageSlot
 
+		GUI_Notif_Values.Button_1_Message := config_Buttons.Button_1_Message
+		GUI_Notif_Values.Button_2_Message := config_Buttons.Button_2_Message
+		GUI_Notif_Values.Button_3_Message := config_Buttons.Button_3_Message
+
 		Gui, Notif:Show, x0 y0 w300 h130 Hide,% ProgramValues.Name
 		OnMessage(0x200, "WM_MOUSEMOVE")
 		Gui, Notif:+LastFound
 		WinSet, Transparent,% cTransparency
 		Return
+	}
 
-		Send_Msg1:
-			player := GUI_Notif.GetSlot("Player")
+	SendMsg(num, CtrlHwnd) {
+		global GUI_Notif_Values
 
-			GroupActivate, POEGame
-			WinWaitActive,ahk_group POEGame, ,5
-			if (!ErrorLevel)
-				SendInput, {Enter}@%player% %cBTN_1_Msg%{Enter}
- 		Return
-		Send_Msg2:
-			player := GUI_Notif.GetSlot("Player")
+		player := GUI_Notif.GetSlot("Player")
+		msg := StrReplace(GUI_Notif_Values["Button_" num "_Message"], "%player%", player)
 
-			GroupActivate, POEGame
-			WinWaitActive,ahk_group POEGame, ,5
-			if (!ErrorLevel)
-				SendInput, {Enter}@%player% %cBTN_2_Msg%{Enter}
-		Return
-		Send_Msg3:
-			player := GUI_Notif.GetSlot("Player")
-
-			GroupActivate, POEGame
-			WinWaitActive,ahk_group POEGame, ,5
-			if (!ErrorLevel)
-				SendInput, {Enter}@%player% %cBTN_3_Msg%{Enter}
-		Return
+		GroupActivate, POEGame
+		WinWaitActive,ahk_group POEGame, ,5
+		if (!ErrorLevel) {
+			SendInput, {Enter}
+			Sleep 1
+			SendInput, {Raw}%msg%
+			Sleep 1
+			SendInput, {Enter}
+		}
 	}
 
 	CloseTab() {

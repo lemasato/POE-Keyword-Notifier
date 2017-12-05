@@ -50,7 +50,7 @@ Return
 ; 	ExitApp
 ; Return
 
-Space:: ; Close the SplashTextOn() window
+~Space:: ; Close the SplashTextOn() window
 	global SPACEBAR_WAIT
 
 	if (SPACEBAR_WAIT) {
@@ -66,7 +66,7 @@ Start_Script() {
 	global ProgramValues := {}
 
 	ProgramValues.Name 					:= "POE Keyword Notifier"
-	ProgramValues.Version 				:= "0.2"
+	ProgramValues.Version 				:= "0.2.1"
 	ProgramValues.Branch 				:= "master"
 	ProgramValues.Github_User 			:= "lemasato"
 	ProgramValues.GitHub_Repo 			:= "POE-Keyword-Notifier"
@@ -80,7 +80,7 @@ Start_Script() {
 	ProgramValues.Keywords_File 		:= ProgramValues.Local_Folder "\keywords.txt"
 
 	ProgramValues.Updater_File 			:= ProgramValues.Local_Folder "/POE-KN-Updater.exe"
-	ProgramValues.Temporary_Name		:= ProgramValues.Local_Folder "/BNet-KN-NewVersion.exe"
+	ProgramValues.Temporary_Name		:= ProgramValues.Local_Folder "/POE-KN-NewVersion.exe"
 	ProgramValues.Updater_Link 			:= "https://raw.githubusercontent.com/" ProgramValues.Github_User "/" ProgramValues.GitHub_Repo "/master/Updater_v2.exe"
 
 	ProgramValues.PID 					:= DllCall("GetCurrentProcessId")
@@ -102,14 +102,15 @@ Start_Script() {
 	FileDelete,% ProgramValues.Updater_File
 ;	Startup
 	Tray_Refresh()
+	Update_Local_Config()
 	Create_Local_File()
 	UpdateCheck(0, 1)
 	Declare_Keywords_List()
 
 	GUI_Notif.Create()
-
 	; GUI_Notif.Add("iSellStuff","rota,zana","LF2M Zana 6 Rota")
 	; GUI_Settings.Create()
+
 
 	while !(sLOGS_FILE) {
 		sLOGS_FILE := Get_Logs_File()

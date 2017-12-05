@@ -36,21 +36,21 @@
 
 		Gui, Settings:Add, GroupBox, x10 y+10 w435 h55 c000000,Button 1
 		Gui, Settings:Add, Text, x25 yp+25,Name:
-		Gui, Settings:Add, Edit, x+5 yp-3 w95 vEDIT_BTN1_Name hwndhEDIT_BTN1_Name,% config_Buttons.Button_1_Name
+		Gui, Settings:Add, Edit, x+5 yp-3 w95 vEDIT_BTN1_Name hwndhEDIT_BTN1_Name R1,% config_Buttons.Button_1_Name
 		Gui, Settings:Add, Text, x+5 yp+3,Message:
-		Gui, Settings:Add, Edit, x+5 yp-3 w220 vEDIT_BTN1_Message hwndhEDIT_BTN1_Message,% config_Buttons.Button_1_Message
+		Gui, Settings:Add, Edit, x+5 yp-3 w220 vEDIT_BTN1_Message hwndhEDIT_BTN1_Message R1,% config_Buttons.Button_1_Message
 
 		Gui, Settings:Add, GroupBox, x10 y+15 w435 h55 c000000,Button 2
 		Gui, Settings:Add, Text, x25 yp+25,Name:
-		Gui, Settings:Add, Edit, x+5 yp-3 w95 vEDIT_BTN2_Name hwndhEDIT_BTN2_Name,% config_Buttons.Button_2_Name
+		Gui, Settings:Add, Edit, x+5 yp-3 w95 vEDIT_BTN2_Name hwndhEDIT_BTN2_Name R1,% config_Buttons.Button_2_Name
 		Gui, Settings:Add, Text, x+5 yp+3,Message:
-		Gui, Settings:Add, Edit, x+5 yp-3 w220 vEDIT_BTN2_Message hwndhEDIT_BTN2_Message,% config_Buttons.Button_2_Message
+		Gui, Settings:Add, Edit, x+5 yp-3 w220 vEDIT_BTN2_Message hwndhEDIT_BTN2_Message R1,% config_Buttons.Button_2_Message
 
 		Gui, Settings:Add, GroupBox, x10 y+15 w435 h55 c000000,Button 3
 		Gui, Settings:Add, Text, x25 yp+25,Name:
-		Gui, Settings:Add, Edit, x+5 yp-3 w95 vEDIT_BTN3_Name hwndhEDIT_BTN3_Name,% config_Buttons.Button_3_Name
+		Gui, Settings:Add, Edit, x+5 yp-3 w95 vEDIT_BTN3_Name hwndhEDIT_BTN3_Name R1,% config_Buttons.Button_3_Name
 		Gui, Settings:Add, Text, x+5 yp+3,Message:
-		Gui, Settings:Add, Edit, x+5 yp-3 w220 vEDIT_BTN3_Message hwndhEDIT_BTN3_Message,% config_Buttons.Button_3_Message
+		Gui, Settings:Add, Edit, x+5 yp-3 w220 vEDIT_BTN3_Message hwndhEDIT_BTN3_Message R1,% config_Buttons.Button_3_Message
 
 		Gui, Settings:Add, Text, x10 y+20,% "v" ProgramValues.Version
 		Gui, Settings:Add, Link, x10 y+0 hwndhLINK_GitHub gGitHub_Link,% "<a href="""">GitHub</a>"
@@ -155,12 +155,13 @@
 		Set_Local_Config("SETTINGS", "Timer_Keywords", GUI_Settings_Submit.EDIT_Keywords_Timer)
 		Set_Local_Config("SETTINGS", "Timer_Logs", GUI_Settings_Submit.EDIT_Logs_Timer)
 		Set_Local_Config("SETTINGS", "Transparency", GUI_Settings_Submit.EDIT_Transparency)
+
 		; Buttons
 		Set_Local_Config("BUTTONS", "Button_1_Name", GUI_Settings_Submit.EDIT_BTN1_Name)
-		Set_Local_Config("BUTTONS", "Button_1_Message", GUI_Settings_Submit.EDIT_BTN1_Message)
+		Set_Local_Config("BUTTONS", "Button_1_Message", """" GUI_Settings_Submit.EDIT_BTN1_Message """")
 		Set_Local_Config("BUTTONS", "Button_2_Name", GUI_Settings_Submit.EDIT_BTN2_Name)
-		Set_Local_Config("BUTTONS", "Button_2_Message", GUI_Settings_Submit.EDIT_BTN2_Message)
+		Set_Local_Config("BUTTONS", "Button_2_Message", """" GUI_Settings_Submit.EDIT_BTN2_Message """")
 		Set_Local_Config("BUTTONS", "Button_3_Name", GUI_Settings_Submit.EDIT_BTN3_Name)
-		Set_Local_Config("BUTTONS", "Button_3_Message", GUI_Settings_Submit.EDIT_BTN3_Message)
+		Set_Local_Config("BUTTONS", "Button_3_Message", """" GUI_Settings_Submit.EDIT_BTN3_Message """")
 	}
 }
