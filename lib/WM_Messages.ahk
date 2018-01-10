@@ -8,7 +8,7 @@
 
 	if (hwnd = PlayerSlot || hwnd = KeywordSlot || hwnd = MessageSlot) {
 		GuiControlGet, tabNum, Notif:,% GUI_Notif_Handles.TabCtrl
-		coords := Get_Control_Coords("Notif", hwnd)
+		coords := Get_ControlCoords("Notif", hwnd)
 
 		if (hwnd = PlayerSlot)
 			content := GUI_Notif.GetSlot("Player")
