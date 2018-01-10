@@ -75,9 +75,11 @@ Start_Script() {
 	PROGRAM.BRANCH 							:= "master"
 	; Folders
 	PROGRAM.MAIN_FOLDER 					:= A_MyDocuments "\AutoHotkey\" PROGRAM.NAME
+	PROGRAM.LOGS_FOLDER						:= PROGRAM.MAIN_FOLDER "\Logs"
 	; Files
 	PROGRAM.INI_FILE 						:= PROGRAM.MAIN_FOLDER "\Preferences.ini"
 	PROGRAM.KEYWORDS_FILE 					:= PROGRAM.MAIN_FOLDER "\keywords.txt"
+	PROGRAM.LOGS_FILE 						:= PROGRAM.LOGS_FOLDER "\" A_YYYY "-" A_MM "-" A_DD " " A_Hour "h" A_Min "m" A_Sec "s.txt"
 	; Links
 	PROGRAM.LINK_GITHUB 					:= "https://github.com/" PROGRAM.GITHUB_USER "/" PROGRAM.GITHUB_REPO
 	; Updater file and links
@@ -88,24 +90,36 @@ Start_Script() {
 	PROGRAM.PID 							:= DllCall("GetCurrentProcessId")
 
 	; Game folder and files
-	GAME.MAIN_FOLDER 				:= MyDocuments "\my games\Path of Exile"
-	GAME.INI_FILE 					:= GAME.MAIN_FOLDER "\production_Config.ini"
-	GAME.INI_FILE_COPY 		 		:= PROGRAM.MAIN_FOLDER "\production_Config.ini"
-	GAME.EXECUTABLES 				:= "PathOfExile.exe,PathOfExile_x64.exe,PathOfExileSteam.exe,PathOfExile_x64Steam.exe"
+	GAME.MAIN_FOLDER 						:= A_MyDocuments "\my games\Path of Exile"
+	GAME.INI_FILE 							:= GAME.MAIN_FOLDER "\production_Config.ini"
+	GAME.INI_FILE_COPY 		 				:= PROGRAM.MAIN_FOLDER "\production_Config.ini"
+	GAME.EXECUTABLES 						:= "PathOfExile.exe,PathOfExile_x64.exe,PathOfExileSteam.exe,PathOfExile_x64Steam.exe"
 
 	SetWorkingDir,% PROGRAM.MAIN_FOLDER
 
-;	Directories Creation - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	localDirs := PROGRAM.MAIN_FOLDER
+	; Directories Creation - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	directories := PROGRAM.MAIN_FOLDER "`n" PROGRAM.LOGS_FOLDER
 
-	Loop, Parse, localDirs, `n, `r
+	Loop, Parse, directories, `n, `r
 	{
 		if (!InStr(FileExist(A_LoopField), "D")) {
 			FileCreateDir, % A_LoopField
+			AppendtoLogs("Local directory non-existent. Creating: """ A_LoopField """")
+			if (ErrorLevel && A_LastError) {
+				AppendtoLogs("Failed to create local directory. System Error Code: " A_LastError ". Path: """ A_LoopField """")
+			}
 		}
 	}
 
-;	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	; Game executables groups - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	global POEGameArr := ["PathOfExile.exe", "PathOfExile_x64.exe", "PathOfExileSteam.exe", "PathOfExile_x64Steam.exe"]
+	global POEGameList := "PathOfExile.exe,PathOfExile_x64.exe,PathOfExileSteam.exe,PathOfExile_x64Steam.exe"
+
+	for nothing, executable in POEGameArr {
+		GroupAdd, POEGameGroup, ahk_exe %executable%
+	}
+
+	; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	FileDelete,% PROGRAM.UPDATER_FILENAME
 
 	Tray_Refresh()
@@ -114,9 +128,12 @@ Start_Script() {
 	Update_Local_Config()
 	Create_Local_File()
 	; Game settings
-	; gameSettings := Get_GameSettings()
-	; Declare_GameSettings(gameSettings)
-	
+	gameSettings := Get_GameSettings()
+	Declare_GameSettings(gameSettings)
+	; Logs files
+	Create_LogsFile()
+	Delete_OldLogsFile()
+
 	UpdateCheck(0, 1)
 
 	Declare_Keywords_List()
@@ -150,30 +167,6 @@ Start_Script() {
 	SetTimer, SplashTextOff, -3000
 }
 
-; ================================================
-
-RemoveGuildPrefix(str) {
-	if RegExMatch(str, "<.*>(.*)", strPat) {
-		name := strPat1
-		name = %name%
-		Return name
-	}
-	else
-		Return str	
-}
-
-Get_Control_Coords(guiName, ctrlHandler) {
-/*		Retrieve a control's position and return them in an array.
-		The reason of this function is because the variable content would be blank
-			unless its sub-variables (coordsX, coordsY, ...) were set to global.
-			(Weird AHK bug)
-*/
-	GuiControlGet, coords, %guiName%:Pos,% ctrlHandler
-	return {X:coordsX,Y:coordsY,W:coordsW,H:coordsH}
-}
-
-; ================================================
-
 GitHub_Link:
 	Run,% PROGRAM.LINK_GITHUB
 Return
@@ -190,14 +183,17 @@ Exit_Func(ExitReason, ExitCode) {
 }
 
 #Include %A_ScriptDir%/lib/
-#Include CoordMode.ahk
-#Include FileDownload.ahk
+#Include Class_Ini.ahk
+#Include EasyFuncs.ahk
 #Include GameLogs.ahk
 #Include GitHubReleasesAPI.ahk
 #Include GUI_Notif.ahk
 #Include GUI_Settings.ahk
 #Include Keywords_File.ahk
+#Include POE_Game.ahk
+#Include POE_Game_File.ahk
 #Include Local_File.ahk
+#Include Logs.ahk
 #Include ShowToolTip.ahk
 #Include SplashText.ahk
 #Include TrayRefresh.ahk
@@ -205,4 +201,6 @@ Exit_Func(ExitReason, ExitCode) {
 #Include WM_Messages.ahk
 
 #Include %A_ScriptDir%/lib/third-party
+#Include Clip.ahk
 #Include JSON.ahk
+#Include StringToHex.ahk
