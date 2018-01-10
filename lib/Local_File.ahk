@@ -1,11 +1,11 @@
 ﻿Create_Local_File() {
-	global ProgramValues
+	global PROGRAM
 
 	sect := "PROGRAM"
 	keysAndValues := {	Last_Update_Check:"1994042612310000"
 						,FileName:A_ScriptName
-						,PID:ProgramValues.PID
-						,Version:ProgramValues.Version}
+						,PID:PROGRAM.PID
+						,Version:PROGRAM.VERSION}
 
 	for iniKey, iniValue in keysAndValues {
 		currentValue := Get_Local_Config(sect, iniKey)
@@ -55,16 +55,16 @@
 }
 
 Get_Local_Config(sect, key="") {
-	global ProgramValues
+	global PROGRAM
 
 	if (key) {
-		IniRead, val,% ProgramValues.Ini_File,% sect,% key
+		IniRead, val,% PROGRAM.INI_FILE,% sect,% key
 		if (val && val != "ERROR") || (val = 0)
 			Return val
 		else Return "ERROR"
 	}
 	else {
-		IniRead, allKeys,% ProgramValues.Ini_File,% sect
+		IniRead, allKeys,% PROGRAM.INI_FILE,% sect
 		
 		keyAndValuesArr := {}
 		Loop, Parse, allKeys,% "`n`r"
@@ -90,19 +90,19 @@ Get_Local_Config(sect, key="") {
 }
 
 Set_Local_Config(sect, key, val) {
-	global ProgramValues
+	global PROGRAM
 
-	IniWrite,% val,% ProgramValues.Ini_File,% sect,% key
+	IniWrite,% val,% PROGRAM.INI_FILE,% sect,% key
 }
 
 Update_Local_Config() {
-	global ProgramValues
+	global PROGRAM
 
-	if !FileExist(ProgramValues.Ini_File)
+	if !FileExist(PROGRAM.INI_FILE)
 		Return
 
 	;	This setting is unreliable in cases where the user updates to 1.12 (or higher) then reverts back to pre-1.12 since the setting was only added as of 1.12
-	IniRead, priorVer,% ProgramValues.Ini_File,% "PROGRAM",% "Version",% "UNKNOWN"
+	IniRead, priorVer,% PROGRAM.INI_FILE,% "PROGRAM",% "Version",% "UNKNOWN"
 
 	subVersions := StrSplit(priorVersionNum, ".")
 	mainVer := subVersions[1], releaseVer := subVersions[2], patchVer := subVersions[3]

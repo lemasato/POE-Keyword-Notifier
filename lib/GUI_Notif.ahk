@@ -2,7 +2,7 @@
 {
 	Create() {
 		static
-		global ProgramValues, hGUI_Notif
+		global PROGRAM, hGUI_Notif
 		global GUI_Notif_Handles := {}, GUI_Notif_Values := {}
 		global Tabs_Infos := {}
 		global TABS_COUNT := 0
@@ -46,7 +46,7 @@
 		GUI_Notif_Values.Button_2_Message := config_Buttons.Button_2_Message
 		GUI_Notif_Values.Button_3_Message := config_Buttons.Button_3_Message
 
-		Gui, Notif:Show, x0 y0 w300 h130 Hide,% ProgramValues.Name
+		Gui, Notif:Show, x0 y0 w300 h130 Hide,% PROGRAM.NAME
 		OnMessage(0x200, "WM_MOUSEMOVE")
 		Gui, Notif:+LastFound
 		WinSet, Transparent,% cTransparency

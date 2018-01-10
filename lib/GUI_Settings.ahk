@@ -1,7 +1,7 @@
 ﻿Class GUI_Settings {
 	Create() {
 		static
-		global ProgramValues, sKEYWORDS, hGUI_Settings
+		global PROGRAM, sKEYWORDS, hGUI_Settings
 		global GUI_Settings_Handles := {}
 		global GUI_Settings_Submit := {}
 
@@ -52,7 +52,7 @@
 		Gui, Settings:Add, Text, x+5 yp+3,Message:
 		Gui, Settings:Add, Edit, x+5 yp-3 w220 vEDIT_BTN3_Message hwndhEDIT_BTN3_Message R1,% config_Buttons.Button_3_Message
 
-		Gui, Settings:Add, Text, x10 y+20,% "v" ProgramValues.Version
+		Gui, Settings:Add, Text, x10 y+20,% "v" PROGRAM.VERSION
 		Gui, Settings:Add, Link, x10 y+0 hwndhLINK_GitHub gGitHub_Link,% "<a href="""">GitHub</a>"
 
 		GUI_Settings_Handles.EDIT_Transparency := hEDIT_Transparency
@@ -146,8 +146,8 @@
 	}
 
 	SaveSettings() {
-		global GUI_Settings_Submit, ProgramValues
-		iniFile := ProgramValues.Ini_File
+		global GUI_Settings_Submit, PROGRAM
+		iniFile := PROGRAM.INI_FILE
 
 		GUI_Settings.Submit()
 

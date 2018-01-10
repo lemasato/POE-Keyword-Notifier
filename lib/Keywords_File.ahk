@@ -1,11 +1,11 @@
 ﻿Read_Keywords_File() {
-	global ProgramValues
+	global PROGRAM
 
-	if !FileExist(ProgramValues.Keywords_File) {
-		FileAppend,,% ProgramValues.Keywords_File
+	if !FileExist(PROGRAM.KEYWORDS_FILE) {
+		FileAppend,,% PROGRAM.KEYWORDS_FILE
 	}
 
-	FileRead, keywords,% ProgramValues.Keywords_File
+	FileRead, keywords,% PROGRAM.KEYWORDS_FILE
 	Return keywords
 }
 
@@ -37,7 +37,7 @@ Get_Keywords_List() {
 }
 
 Add_Keyword(str) {
-	global ProgramValues
+	global PROGRAM
 
 	keywords := Get_Keywords_List()
 
@@ -46,12 +46,12 @@ Add_Keyword(str) {
 
 	if str not in %keywords%
 	{
-		FileAppend,% "`n" str,% ProgramValues.Keywords_File
+		FileAppend,% "`n" str,% PROGRAM.KEYWORDS_FILE
 	}
 }
 
 Remove_Keyword(str) {
-	global ProgramValues
+	global PROGRAM
 
 	keywords := Get_Keywords_List()
 
@@ -62,12 +62,12 @@ Remove_Keyword(str) {
 	}
 	
 	newList := StrReplace(newList, ",", "`r`n")
-	fileObj := FileOpen(ProgramValues.Keywords_File, "w")
+	fileObj := FileOpen(PROGRAM.KEYWORDS_FILE, "w")
 	fileObj.Write(newList)
 }
 
 Run_Keywords_File() {
-	global ProgramValues
+	global PROGRAM
 
-	Run,% ProgramValues.Keywords_File
+	Run,% PROGRAM.KEYWORDS_FILE
 }

@@ -63,61 +63,74 @@ Return
 Start_Script() {
 	global sKEYWORDS, sLOGS_FILE
 	global sLOGS_TIMER, sKEYWORDS_TIMER
-	global ProgramValues := {}
+	global PROGRAM 							:= {} ; Specific to the program's informations
+	global GAME								:= {} ; Specific to the game config files
 
-	ProgramValues.Name 					:= "POE Keyword Notifier"
-	ProgramValues.Version 				:= "0.2.1"
-	ProgramValues.Branch 				:= "master"
-	ProgramValues.Github_User 			:= "lemasato"
-	ProgramValues.GitHub_Repo 			:= "POE-Keyword-Notifier"
+	; Name and ver
+	PROGRAM.NAME 							:= "POE Keyword Notifier"
+	PROGRAM.VERSION 						:= "0.2.1"
+	; Github repo infos
+	PROGRAM.GITHUB_USER 					:= "lemasato"
+	PROGRAM.GITHUB_REPO 					:= "POE-Keyword-Notifier"
+	PROGRAM.BRANCH 							:= "master"
+	; Folders
+	PROGRAM.MAIN_FOLDER 					:= A_MyDocuments "\AutoHotkey\" PROGRAM.NAME
+	; Files
+	PROGRAM.INI_FILE 						:= PROGRAM.MAIN_FOLDER "\Preferences.ini"
+	PROGRAM.KEYWORDS_FILE 					:= PROGRAM.MAIN_FOLDER "\keywords.txt"
+	; Links
+	PROGRAM.LINK_GITHUB 					:= "https://github.com/" PROGRAM.GITHUB_USER "/" PROGRAM.GITHUB_REPO
+	; Updater file and links
+	PROGRAM.UPDATER_FILENAME 				:= PROGRAM.MAIN_FOLDER "/POE-KN-Updater.exe"
+	PROGRAM.NEW_FILENAME					:= PROGRAM.MAIN_FOLDER "/POE-KN-NewVersion.exe"
+	PROGRAM.LINK_UPDATER 					:= "https://raw.githubusercontent.com/" PROGRAM.GITHUB_USER "/" PROGRAM.GITHUB_REPO "/master/Updater_v2.exe"
+	; PID
+	PROGRAM.PID 							:= DllCall("GetCurrentProcessId")
 
-	ProgramValues.GitHub 				:= "https://github.com/" ProgramValues.Github_User "/" ProgramValues.GitHub_Repo
+	; Game folder and files
+	GAME.MAIN_FOLDER 				:= MyDocuments "\my games\Path of Exile"
+	GAME.INI_FILE 					:= GAME.MAIN_FOLDER "\production_Config.ini"
+	GAME.INI_FILE_COPY 		 		:= PROGRAM.MAIN_FOLDER "\production_Config.ini"
+	GAME.EXECUTABLES 				:= "PathOfExile.exe,PathOfExile_x64.exe,PathOfExileSteam.exe,PathOfExile_x64Steam.exe"
 
-	ProgramValues.Local_Folder 			:= A_MyDocuments "\AutoHotkey\" ProgramValues.Name
-	; ProgramValues.Resources_Folder 		:= ProgramValues.Local_Folder "\resources"
+	SetWorkingDir,% PROGRAM.MAIN_FOLDER
 
-	ProgramValues.Ini_File 				:= ProgramValues.Local_Folder "\Preferences.ini"
-	ProgramValues.Keywords_File 		:= ProgramValues.Local_Folder "\keywords.txt"
+;	Directories Creation - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	localDirs := PROGRAM.MAIN_FOLDER
 
-	ProgramValues.Updater_File 			:= ProgramValues.Local_Folder "/POE-KN-Updater.exe"
-	ProgramValues.Temporary_Name		:= ProgramValues.Local_Folder "/POE-KN-NewVersion.exe"
-	ProgramValues.Updater_Link 			:= "https://raw.githubusercontent.com/" ProgramValues.Github_User "/" ProgramValues.GitHub_Repo "/master/Updater_v2.exe"
-
-	ProgramValues.PID 					:= DllCall("GetCurrentProcessId")
-
-	SetWorkingDir,% ProgramValues.Local_Folder
-;	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-;	Directories Creation
-	localDirs := ProgramValues.Local_Folder
-			; . "`n" ProgramValues.Resources_Folder
-	Loop, Parse, localDirs,% "`n"
+	Loop, Parse, localDirs, `n, `r
 	{
 		if (!InStr(FileExist(A_LoopField), "D")) {
 			FileCreateDir, % A_LoopField
 		}
 	}
-;	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	FileDelete,% ProgramValues.Updater_File
-;	Startup
+;	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	FileDelete,% PROGRAM.UPDATER_FILENAME
+
 	Tray_Refresh()
+
+	; Local settings
 	Update_Local_Config()
 	Create_Local_File()
+	; Game settings
+	; gameSettings := Get_GameSettings()
+	; Declare_GameSettings(gameSettings)
+	
 	UpdateCheck(0, 1)
+
 	Declare_Keywords_List()
 
 	GUI_Notif.Create()
 	; GUI_Notif.Add("iSellStuff","rota,zana","LF2M Zana 6 Rota")
 	; GUI_Settings.Create()
 
-
 	while !(sLOGS_FILE) {
 		sLOGS_FILE := Get_Logs_File()
 		if (sLOGS_FILE)
 			Break
 		if (A_Index = 1)
-			SplashTextOn(ProgramValues.Name, "Path of Exile's logs file could not be found."
+			SplashTextOn(PROGRAM.NAME, "Path of Exile's logs file could not be found."
 			.								 "`nThe app will now wait until the game is started."
 			.								 "",0,1)
 			SetTimer, SplashTextOff, -3000
@@ -129,7 +142,7 @@ Start_Script() {
 	SetTimer, Read_Logs, -%sLOGS_TIMER%
 	SetTimer, Declare_Keywords_List, -%sKEYWORDS_TIMER%
 
-	SplashTextOn(ProgramValues.Name, "Right click on the tray icon to access the settings"
+	SplashTextOn(PROGRAM.NAME, "Right click on the tray icon to access the settings"
 	.								 "`n"
 	.								 "`nNow monitoring the logs file located at:"
 	.								 "`n" """" sLOGS_FILE """"
@@ -162,7 +175,7 @@ Get_Control_Coords(guiName, ctrlHandler) {
 ; ================================================
 
 GitHub_Link:
-	Run,% ProgramValues.GitHub
+	Run,% PROGRAM.LINK_GITHUB
 Return
 
 Reload_Func() {
