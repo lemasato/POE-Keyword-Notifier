@@ -59,15 +59,7 @@
 		player := GUI_Notif.GetSlot("Player")
 		msg := StrReplace(GUI_Notif_Values["Button_" num "_Message"], "%player%", player)
 
-		GroupActivate, POEGame
-		WinWaitActive,ahk_group POEGame, ,5
-		if (!ErrorLevel) {
-			SendInput, {Enter}
-			Sleep 1
-			SendInput, {Raw}%msg%
-			Sleep 1
-			SendInput, {Enter}
-		}
+		Send_IGMessage(msg)
 	}
 
 	CloseTab() {
