@@ -1,3 +1,9 @@
+v0.3 (10 Jan 2017)
+
+	Changes:
+	- Messages are now sent using the clibpoard, just like how it is in Trades Companion.
+
+-----------------------
 v0.2.1 (05 Dec 2017)
 
 	Changes:
