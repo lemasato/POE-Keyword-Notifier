@@ -43,6 +43,7 @@ Parse_Logs(str) {
 		if ( RegExMatch( A_LoopField, "S)^(?:[^ ]+ ){6}(\d+)\] (#|$)(.*?): (.*)", subPat ) ) { ; 1:? - 2:Chat - 3:Name - 4:Msg
 			channel := subPat2, player := subPat3, message := subPat4
 			player := RemoveGuildPrefix(player)
+			AutoTrimStr(player)
 
 			Loop, Parse,% sKEYWORDS,% ","
 			{

@@ -1,4 +1,22 @@
-﻿Set_Format(_NumberType="", _Format="") {
+﻿AutoTrimStr(ByRef string1, ByRef string2="", ByRef string3="", ByRef string4="", ByRef string5="", ByRef string6="", ByRef string7="", ByRef string8="", ByRef string9="", ByRef string10="") {
+	_autotrim := A_AutoTrim
+	AutoTrim, On
+
+	string1 = %string1%
+	string2 = %string2%
+	string3 = %string3%
+	string4 = %string4%
+	string5 = %string5%
+	string6 = %string6%
+	string7 = %string7%
+	string8 = %string8%
+	string9 = %string9%
+	string10 = %string10%
+
+	AutoTrim, %_autotrim%
+}
+
+Set_Format(_NumberType="", _Format="") {
 	static prevNumberType, prevFormat
 	prevNumberType := _NumberType
 	_Format := A_FormatFloat

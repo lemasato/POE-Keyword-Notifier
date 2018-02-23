@@ -5,7 +5,7 @@
 		Return name
 	}
 	else
-		Return str	
+		Return str
 }
 
 Send_IGMessage(message) {
