@@ -1,8 +1,7 @@
-*_Archive
-*_Testings
-_Convert_Release.ahk
-_Convert_Updater.ahk
-verpatch.exe
+# Testing tools
+/__
+
+VerPatch.ini
 
 resources/games_icons/_InWorks
 
