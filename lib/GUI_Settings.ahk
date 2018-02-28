@@ -13,9 +13,10 @@
 		Gui, Settings:New, +AlwaysOnTop +ToolWindow +LabelGUI_Settings_ +HwndhGUI_Settings
 		Gui, Settings:Font,S8,Segoe UI
 
-		Gui, Settings:Add, Text, x10 y10,Transparency: 
+		Gui, Settings:Add, Text, x10 y10,Transparency (50-255): 
 		Gui, Settings:Add, Edit, x+5 yp-3 w60 Number ReadOnly vEDIT_Transparency hwndhEDIT_Transparency,% config_Settings.Transparency
 		Gui, Settings:Add, UpDown, x+0 hp -16 Range10-51 Wrap gGUI_Settings.OnUpDown_Change vUPDOWN_Transparency hwndhUPDOWN_Transparency,% config_Settings.Transparency / 5
+
 		; The range above has to be adjusted based on the multiplier due to the way the -16 pameter works.
 		; Range: 50-255. Multiplier: 5. Therefore, 50/5=10 and 255/5=51.
 		; The default value has to be divided by the multiplier too.
@@ -54,6 +55,20 @@
 
 		Gui, Settings:Add, Text, x10 y+20,% "v" PROGRAM.VERSION
 		Gui, Settings:Add, Link, x10 y+0 hwndhLINK_GitHub gGitHub_Link,% "<a href="""">GitHub</a>"
+
+		AddToolTip(hEDIT_Transparency, "Level of transparency of the interface.`n`nDefault value: 200.")
+		AddToolTip(hUPDOWN_Transparency, "Level of transparency of the interface.`n`nDefault value: 200.")
+		AddToolTip(hEDIT_Keywords_Timer, "Rate at which the file containing keywords should be read`nin case you add or remove keywords.`n`nDefault value: 30000ms (=30s).")
+		AddToolTip(hUPDOWN_Keywords_Timer, "Rate at which the file containing keywords should be read`nin case you add or remove keywords.`n`nDefault value: 30000ms (=30s).")
+		AddToolTip(hEDIT_Logs_Timer, "Rate at which POE logs file should be read.`n`nDefault value: 600ms (=0.6s)")
+		AddToolTip(hUPDOWN_Logs_Timer, "Rate at which POE logs file should be read.`n`nDefault value: 600ms (=0.6s)")
+
+		AddToolTip(hEDIT_BTN1_Name, "Name of the button as it will appear on the interface.")
+		AddToolTip(hEDIT_BTN2_Name, "Name of the button as it will appear on the interface.")
+		AddToolTip(hEDIT_BTN3_Name, "Name of the button as it will appear on the interface.")
+		AddToolTip(hEDIT_BTN1_Message, "Message that should be sent upon pressing this button.`nUse @%player% to send it as whisper to the player.")
+		AddToolTip(hEDIT_BTN2_Message, "Message that should be sent upon pressing this button.`nUse @%player% to send it as whisper to the player.")
+		AddToolTip(hEDIT_BTN3_Message, "Message that should be sent upon pressing this button.`nUse @%player% to send it as whisper to the player.")
 
 		GUI_Settings_Handles.EDIT_Transparency := hEDIT_Transparency
 		GUI_Settings_Handles.UPDOWN_Transparency := hUPDOWN_Transparency

@@ -201,6 +201,7 @@ Exit_Func(ExitReason, ExitCode) {
 #Include WM_Messages.ahk
 
 #Include %A_ScriptDir%/lib/third-party
+#Include AddToolTip.ahk
 #Include Clip.ahk
 #Include JSON.ahk
 #Include StringToHex.ahk
