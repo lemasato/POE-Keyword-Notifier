@@ -58,6 +58,10 @@ Return
 	}
 Return
 
+; #IfWinActive
+
+; F2::Reload_Func()
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Start_Script() {
@@ -140,8 +144,8 @@ Start_Script() {
 	UpdateCheck(0, 1)
 
 	Declare_Keywords_List()
-
 	GUI_Notif.Create()
+
 	; GUI_Notif.Add("iSellStuff","rota,zana","LF2M Zana 6 Rota")
 	; GUI_Settings.Create()
 
@@ -149,11 +153,7 @@ Start_Script() {
 		sLOGS_FILE := Get_Logs_File()
 		if (sLOGS_FILE)
 			Break
-		if (A_Index = 1)
-			SplashTextOn(PROGRAM.NAME, "Path of Exile's logs file could not be found."
-			.								 "`nThe app will now wait until the game is started."
-			.								 "",0,1)
-			SetTimer, SplashTextOff, -3000
+
 		Sleep 30000
 	}
 
@@ -161,13 +161,6 @@ Start_Script() {
 	sKEYWORDS_TIMER := Get_Local_Config("SETTINGS", "Timer_Keywords")
 	SetTimer, Read_Logs, -%sLOGS_TIMER%
 	SetTimer, Declare_Keywords_List, -%sKEYWORDS_TIMER%
-
-	SplashTextOn(PROGRAM.NAME, "Right click on the tray icon to access the settings"
-	.								 "`n"
-	.								 "`nNow monitoring the logs file located at:"
-	.								 "`n" """" sLOGS_FILE """"
-	.								 "",0,1)
-	SetTimer, SplashTextOff, -3000
 }
 
 GitHub_Link:
