@@ -72,7 +72,7 @@ Start_Script() {
 
 	; Name and ver
 	PROGRAM.NAME 							:= "POE Keyword Notifier"
-	PROGRAM.VERSION 						:= "0.3"
+	PROGRAM.VERSION 						:= "0.3.1"
 	; Github repo infos
 	PROGRAM.GITHUB_USER 					:= "lemasato"
 	PROGRAM.GITHUB_REPO 					:= "POE-Keyword-Notifier"
