@@ -43,7 +43,12 @@
 	keysAndValues := {	Auto_Update:1
 						,Transparency:200
 						,Timer_Logs:600
-						,Timer_Keywords:30000}
+						,Timer_Keywords:30000
+						,Monitor_Global:1
+						,Monitor_Party:0
+						,Monitor_Whispers:0
+						,Monitor_Trade:1
+						,Monitor_Guild:0}
 
 	for iniKey, iniValue in keysAndValues {
 		currentValue := Get_Local_Config(sect, iniKey)
@@ -104,13 +109,14 @@ Update_Local_Config() {
 	;	This setting is unreliable in cases where the user updates to 1.12 (or higher) then reverts back to pre-1.12 since the setting was only added as of 1.12
 	IniRead, priorVer,% PROGRAM.INI_FILE,% "PROGRAM",% "Version",% "UNKNOWN"
 
-	subVersions := StrSplit(priorVersionNum, ".")
+	subVersions := StrSplit(priorVer, ".")
 	mainVer := subVersions[1], releaseVer := subVersions[2], patchVer := subVersions[3]
 
-;	Example. This will handle changes that happened before 0.3.
+	/* Example: This will handle changes that happened before 0.3.
 	if (mainVer = 0 && releaseVer < 3) {
 
 	}
+	*/
 
 	; Previous versions were directly sending message as whisper.
 	if (priorVer = "UNKNOWN") {
@@ -121,4 +127,39 @@ Update_Local_Config() {
 		}
 	}
 
+}
+
+
+
+
+
+
+Get_LocalSettings() {
+	global PROGRAM
+	iniFile := PROGRAM.INI_FILE
+	settingsObj := {}
+
+	Loop, Parse,% INI.Get(iniFile), "`n"
+	{
+		settingsObj[A_LoopField] := {}
+
+		arr := INI.Get(iniFile, A_LoopField,,1)
+		for key, value in arr {
+			settingsObj[A_LoopField][key] := value
+		}
+	}
+
+	return settingsObj
+}
+
+Declare_LocalSettings(settingsObj) {
+	global PROGRAM
+
+	PROGRAM["SETTINGS"] := {}
+
+	for iniSection, nothing in settingsObj {
+		PROGRAM["SETTINGS"][iniSection] := {}
+		for iniKey, iniValue in settingsObj[iniSection]
+			PROGRAM["SETTINGS"][iniSection][iniKey] := iniValue
+	}
 }

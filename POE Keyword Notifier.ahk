@@ -127,6 +127,9 @@ Start_Script() {
 	; Local settings
 	Update_Local_Config()
 	Create_Local_File()
+	; Local settings
+	localSettings := Get_LocalSettings()
+	Declare_LocalSettings(localSettings)
 	; Game settings
 	gameSettings := Get_GameSettings()
 	Declare_GameSettings(gameSettings)

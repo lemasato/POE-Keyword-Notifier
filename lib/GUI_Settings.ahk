@@ -29,8 +29,15 @@
 		Gui, Settings:Add, Edit, x+5 yp-3 w100 Number ReadOnly vEDIT_Logs_Timer hwndhEDIT_Logs_Timer,% config_Settings.Timer_Logs
 		Gui, Settings:Add, UpDown, x+0 hp -16 Range3-50 Wrap gGUI_Settings.OnUpDown_Change vUPDOWN_Logs_Timer hwndhUPDOWN_Logs_Timer,% config_Settings.Timer_Logs / 100
 
+		Gui, Settings:Add, GroupBox, x10 y+10 w435 h50 c000000,Chats to monitor
+		Gui, Settings:Add, CheckBox,% "x25 yp+25 vCB_MonitorGlobal hwndhCB_MonitorGlobal Checked" config_Settings.Monitor_Global,# (global)
+		Gui, Settings:Add, CheckBox,% "x+5 yp vCB_MonitorParty hwndhCB_MonitorParty Checked" config_Settings.Monitor_Party,`% (party)
+		Gui, Settings:Add, CheckBox,% "x+5 yp vCB_MonitorWhispers hwndhCB_MonitorWhispers Checked" config_Settings.Monitor_Whispers,@ (whispers)
+		Gui, Settings:Add, CheckBox,% "x+5 yp vCB_MonitorTrade hwndhCB_MonitorTrade Checked" config_Settings.Monitor_Trade,$ (trade)
+		Gui, Settings:Add, CheckBox,% "x+5 yp vCB_MonitorGuild hwndhCB_MonitorGuild Checked" config_Settings.Monitor_Guild,`& (guild)
+
 		keywordsList := StrReplace(sKEYWORDS, ",", "|")
-		Gui, Settings:Add, GroupBox, x10 y+10 w435 h50 c000000,Keywords
+		Gui, Settings:Add, GroupBox, x10 y+15 w435 h50 c000000,Keywords
 		Gui, Settings:Add, ComboBox, x25 yp+20 w200 R10 vCOMBO_Keywords hwndhCOMBO_Keywords,% keywordsList
 		Gui, Settings:Add, Button, x+5 w100 gGUI_Settings.AddKeyword,Add
 		Gui, Settings:Add, Button, x+5 w100 gGUI_Settings.RemoveKeyword,Remove
@@ -76,6 +83,12 @@
 		GUI_Settings_Handles.UPDOWN_Keywords_Timer := hUPDOWN_Keywords_Timer
 		GUI_Settings_Handles.EDIT_Logs_Timer := hEDIT_Logs_Timer
 		GUI_Settings_Handles.UPDOWN_Logs_Timer := hUPDOWN_Logs_Timer
+
+		GUI_Settings_Handles.CB_MonitorGlobal := hCB_MonitorGlobal
+		GUI_Settings_Handles.CB_MonitorParty := hCB_MonitorParty
+		GUI_Settings_Handles.CB_MonitorWhispers := hCB_MonitorWhispers
+		GUI_Settings_Handles.CB_MonitorTrade := hCB_MonitorTrade
+		GUI_Settings_Handles.CB_MonitorGuild := hCB_MonitorGuild
 
 		GUI_Settings_Handles.COMBO_Keywords := hCOMBO_Keywords
 
@@ -171,6 +184,13 @@
 		Set_Local_Config("SETTINGS", "Timer_Logs", GUI_Settings_Submit.EDIT_Logs_Timer)
 		Set_Local_Config("SETTINGS", "Transparency", GUI_Settings_Submit.EDIT_Transparency)
 
+		; Chat channels
+		Set_Local_Config("SETTINGS", "Monitor_Global", GUI_Settings_Submit.CB_MonitorGlobal)
+		Set_Local_Config("SETTINGS", "Monitor_Party", GUI_Settings_Submit.CB_MonitorParty)
+		Set_Local_Config("SETTINGS", "Monitor_Whispers", GUI_Settings_Submit.CB_MonitorWhispers)
+		Set_Local_Config("SETTINGS", "Monitor_Trade", GUI_Settings_Submit.CB_MonitorTrade)
+		Set_Local_Config("SETTINGS", "Monitor_Guild", GUI_Settings_Submit.CB_MonitorGuild)
+
 		; Buttons
 		Set_Local_Config("BUTTONS", "Button_1_Name", GUI_Settings_Submit.EDIT_BTN1_Name)
 		Set_Local_Config("BUTTONS", "Button_1_Message", """" GUI_Settings_Submit.EDIT_BTN1_Message """")
@@ -178,5 +198,8 @@
 		Set_Local_Config("BUTTONS", "Button_2_Message", """" GUI_Settings_Submit.EDIT_BTN2_Message """")
 		Set_Local_Config("BUTTONS", "Button_3_Name", GUI_Settings_Submit.EDIT_BTN3_Name)
 		Set_Local_Config("BUTTONS", "Button_3_Message", """" GUI_Settings_Submit.EDIT_BTN3_Message """")
+
+		localSettings := Get_LocalSettings()
+		Declare_LocalSettings(localSettings)
 	}
 }

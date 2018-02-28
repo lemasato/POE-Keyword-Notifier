@@ -36,21 +36,39 @@ Read_Logs() {
 }
 
 Parse_Logs(str) {
-	global sKEYWORDS
+	global PROGRAM, sKEYWORDS
 
-	Loop, Parse,% str,`n
+	isGlobalChatAllowed := PROGRAM.SETTINGS.SETTINGS.Monitor_Global
+	isPartyChatAllowed := PROGRAM.SETTINGS.SETTINGS.Monitor_Party
+	isWhispersChatAllowed := PROGRAM.SETTINGS.SETTINGS.Monitor_Whispers
+	isTradeChatAllowed := PROGRAM.SETTINGS.SETTINGS.Monitor_Trade
+	isGuildChatAllowed := PROGRAM.SETTINGS.SETTINGS.Monitor_Guild
+
+	Loop, Parse,% str,`n,`r
 	{
-		if ( RegExMatch( A_LoopField, "S)^(?:[^ ]+ ){6}(\d+)\] (#|$)(.*?): (.*)", subPat ) ) { ; 1:? - 2:Chat - 3:Name - 4:Msg
-			channel := subPat2, player := subPat3, message := subPat4
+		if ( RegExMatch( A_LoopField, "SO)^(?:[^ ]+ ){6}(\d+)\] (@From|#|\$|&|\%)(.*?): (.*)", subPat ) ) { ; 1:? - 2:Chat - 3:Name - 4:Msg
+		; if ( RegExMatch( A_LoopField, "SO)^(?:[^ ]+ ){6}(\d+)\] (#+|&+)(.*?): (.*)", subPat ) ) { ; 1:? - 2:Chat - 3:Name - 4:Msg
+			gamePID := subPat.1, channel := subPat.2, player := subPat.3, message := subPat.4
 			player := RemoveGuildPrefix(player)
-			AutoTrimStr(player)
+			AutoTrimStr(player, channel, gamePID)
+
+			if ( (channel = "#" && isGlobalChatAllowed)
+			|| (channel = "%" && isPartyChatAllowed)
+			|| (channel = "@From" && isWhispersChatAllowed)
+			|| (channel = "$" && isTradeChatAllowed)
+			|| (channel = "&" && isGuildChatAllowed) )
+				allowedChannel := True
+			else allowedChannel := False
+
+			if !(allowedChannel)
+				Return
 
 			Loop, Parse,% sKEYWORDS,% ","
 			{
-				if subPat4 contains %A_LoopField%
+				if message contains %A_LoopField%
 					keyWords .= A_LoopField ","
 			}
-			if (keyWords) {
+			if (keyWords && allowedChannel) {
 				SoundPlay, *16
 				StringTrimRight, keyWords, keyWords, 1
 				GUI_Notif.Add(player, keyWords, message)
