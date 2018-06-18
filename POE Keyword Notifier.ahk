@@ -155,6 +155,8 @@ Start_Script() {
 	; GUI_Notif.Add("iSellStuff","rota,zana","LF2M Zana 6 Rota")
 	; GUI_Settings.Create()
 
+	ShellMessage_Enable()
+
 	while !(sLOGS_FILE) {
 		sLOGS_FILE := Get_Logs_File()
 		if (sLOGS_FILE)
@@ -184,6 +186,9 @@ Exit_Func(ExitReason, ExitCode) {
 		ExitApp
 }
 
+DoNothing:
+Return
+
 #Include %A_ScriptDir%/lib/
 #Include Class_Ini.ahk
 #Include EasyFuncs.ahk
@@ -196,6 +201,7 @@ Exit_Func(ExitReason, ExitCode) {
 #Include POE_Game_File.ahk
 #Include Local_File.ahk
 #Include Logs.ahk
+#Include ShellMessage.ahk
 #Include ShowToolTip.ahk
 #Include SplashText.ahk
 #Include TrayRefresh.ahk
