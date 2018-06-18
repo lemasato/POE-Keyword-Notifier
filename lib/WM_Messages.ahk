@@ -5,8 +5,9 @@
 	PlayerSlot := GUI_Notif_Handles.TEXT_PlayerSlot
 	KeywordSlot := GUI_Notif_Handles.TEXT_KeywordSlot
 	MessageSlot := GUI_Notif_Handles.TEXT_MessageSlot
+	TimeSlot := GUI_Notif_Handles.TEXT_TimeSlot
 
-	if (hwnd = PlayerSlot || hwnd = KeywordSlot || hwnd = MessageSlot) {
+	if (hwnd = PlayerSlot || hwnd = KeywordSlot || hwnd = MessageSlot || hwnd = TimeSlot) {
 		GuiControlGet, tabNum, Notif:,% GUI_Notif_Handles.TabCtrl
 		coords := Get_ControlCoords("Notif", hwnd)
 
@@ -16,6 +17,13 @@
 			content := GUI_Notif.GetSlot("Keyword")
 		else if (hwnd = MessageSlot)
 			content := GUI_Notif.GetSlot("Message")
+		else if (hwnd = TimeSlot) {
+			timeContentFull := GUI_Notif.GetSlot("TimeFull")
+			timeDif := A_Now
+			timeDif -= timeContentFull, Minutes
+			timeDif := timeDif=0?"< 1":timeDif
+			content := timeDif " mins ago"
+		}
 
 		WinGetPos, thisWinX, thisWinY
 		MouseGetPos, MouseX
