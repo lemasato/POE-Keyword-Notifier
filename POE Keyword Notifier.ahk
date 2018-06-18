@@ -30,7 +30,7 @@ GroupAdd, POEGame, ahk_exe PathOfExile_x64.exe
 GroupAdd, POEGame, ahk_exe PathOfExileSteam.exe
 GroupAdd, POEGame, ahk_exe PathOfExile_x64Steam.exe
 
-Menu,Tray,Tip,PoE Keyword Notifier
+Menu,Tray,Tip,POE Keyword Notifier
 Menu,Tray,NoStandard
 Menu,Tray,Add,Open Settings,GUI_Settings.Create
 Menu,Tray,Add
@@ -78,7 +78,7 @@ Start_Script() {
 
 	; Name and ver
 	PROGRAM.NAME 							:= "POE Keyword Notifier"
-	PROGRAM.VERSION 						:= "0.3.1"
+	PROGRAM.VERSION 						:= "0.3.2"
 	; Github repo infos
 	PROGRAM.GITHUB_USER 					:= "lemasato"
 	PROGRAM.GITHUB_REPO 					:= "POE-Keyword-Notifier"

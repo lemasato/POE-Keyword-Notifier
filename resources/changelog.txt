@@ -1,4 +1,23 @@
 -----------------------
+v0.3.2 (18 June 2018)
+	Added:
+	- Prevent duplicate messages from showing up on the interface.
+	Note that this only work if the message are exactly the same.
+	- A timestamp can be seen on the top right of the interface.
+	Hovering this same timetamp will show how long ago was the message received.
+	- You can now check for updates manually from the tray menu.
+	Previously, update checking would only be done by the tool on start, every 35 minutes.
+	
+	Changes:
+	- Keyboard keys Enter/Esc/Space/Arrows can no longer work on the interface.
+	This prevents accidently pressing one of the button while the interface has focus.
+	
+	Fixes:
+	- The interface would take focus upon showing a new tab.
+	- Tabs now only take one row.
+	As more tabs were created, they would hide the "Close" button.
+	
+-----------------------
 v0.3.1 (28 Feb 2018)
 	Added:
 	- Choose which chat channels to allow.
