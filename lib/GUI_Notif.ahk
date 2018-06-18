@@ -14,7 +14,7 @@
 		Gui, Notif:New, -SysMenu +AlwaysOnTop +ToolWindow +HwndhGUI_Notif
 		Gui, Notif:Font,S8,Segoe UI
 
-		Gui, Notif:Add, Tab2, x0 y0 w302 h132 vTabCtrl hwndhTabCtrl gGUI_Notif.OnTabSwitch +Theme
+		Gui, Notif:Add, Tab2, x0 y0 w302 h132 vTabCtrl hwndhTabCtrl gGUI_Notif.OnTabSwitch +Theme -Wrap
 		Gui, Notif:Tab
 		Gui, Notif:Add, Text, x10 y30 hwndTEXT_Player BackgroundTrans,Player: 
 		Gui, Notif:Add, Text, xp+55 yp 0x0100 w210 hwndhTEXT_PlayerSlot BackgroundTrans,
