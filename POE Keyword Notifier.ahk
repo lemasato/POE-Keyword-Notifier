@@ -10,7 +10,7 @@
 *	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*	*
 */
 
-#Warn LocalSameAsGlobal
+#Warn LocalSameAsGlobal, StdOut
 OnExit("Exit_Func")
 #SingleInstance, Force
 #Persistent
@@ -34,6 +34,8 @@ Menu,Tray,Tip,PoE Keyword Notifier
 Menu,Tray,NoStandard
 Menu,Tray,Add,Open Settings,GUI_Settings.Create
 Menu,Tray,Add
+Menu,Tray,Add,Check for updates,Tray_Update
+Menu,Tray,Add
 Menu,Tray,Add,Reload,Reload_Func
 Menu,Tray,Add,Close,Exit_Func
 Menu,Tray,Icon
@@ -41,6 +43,10 @@ Menu,Tray,Icon
 GroupAdd, ScriptPID,% "ahk_pid " DllCall("GetCurrentProcessId")
 
 Start_Script()
+Return
+
+Tray_Update:
+	UpdateCheck(True, True)
 Return
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -141,7 +147,7 @@ Start_Script() {
 	Create_LogsFile()
 	Delete_OldLogsFile()
 
-	UpdateCheck(0, 1)
+	UpdateCheck()
 
 	Declare_Keywords_List()
 	GUI_Notif.Create()
@@ -199,5 +205,6 @@ Exit_Func(ExitReason, ExitCode) {
 #Include %A_ScriptDir%/lib/third-party
 #Include AddToolTip.ahk
 #Include Clip.ahk
+#Include Download.ahk
 #Include JSON.ahk
 #Include StringToHex.ahk
