@@ -140,7 +140,7 @@
 		GuiControl, Notif:,% GUI_Notif_Handles.TabCtrl,%TABS_COUNT%
 		GUI_Notif.OnTabSwitch()
 
-		Gui, Notif:Show
+		Gui, Notif:Show, NoActivate
 	}
 
 	OnTabSwitch() {
