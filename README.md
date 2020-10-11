@@ -1,3 +1,7 @@
+No longer being maintained. The coding sucks and would require complete rewrite.  
+Anyway chat notifications aren't very needed anymore since master rotas are gone and services can safely be aquired from the POE TFT Discord.
+***
+
 # POE-Keyword-Notifier
 
 Receive a notification based on keywords  
